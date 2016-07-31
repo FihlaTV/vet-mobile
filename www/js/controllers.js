@@ -64,7 +64,11 @@ angular.module('starter.controllers', [])
       .then(
         function(response) {
           if (response.data.dono) {
-            $scope.dono = response.data.dono;
+            var dono = response.data.dono;
+            if (dono.dtNascimento) {
+              dono.dtNascimento = new Date(dono.dtNascimento);
+            }
+            $scope.dono = dono;
           }
           console.log(response.data.dono);
         }, 
@@ -75,7 +79,9 @@ angular.module('starter.controllers', [])
   }
 
   $scope.save = function() {
-    $http.post('http://192.168.15.3:8080/vet-service/dono/save', $scope.dono)
+    var param = {};
+    param.dono = $scope.dono;
+    $http.post('http://192.168.15.3:8080/vet-service/dono/save', param)
       .then(function(response) {
         console.log(response.data);
       }, function(error) {
