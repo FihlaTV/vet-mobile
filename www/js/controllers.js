@@ -57,12 +57,16 @@ angular.module('starter.controllers', [])
 
 .controller('DonoCtrl', function($scope, $stateParams, $http) {
 
+  $scope.dono = {};
+
   if ($scope.loginData.username) {
     $http.get('http://192.168.15.3:8080/vet-service/dono/' + $scope.loginData.username)
       .then(
         function(response) {
-          $scope.dono = response.data;
-          console.log(response.data);
+          if (response.data.dono) {
+            $scope.dono = response.data.dono;
+          }
+          console.log(response.data.dono);
         }, 
         function(error) {
           console.log(error);
