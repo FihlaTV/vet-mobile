@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -97,6 +97,37 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       }
     }
   })
+
+  .state('abstractTabs', {
+    url: '/tabs',
+    abstract: true,
+    templateUrl: '/templates/abstractTabs.html'
+  })
+
+  .state('abstractTabs.left', {
+    url: '/left',
+    views: {
+      'tabContentLeft': {
+        templateUrl: '/templates/tabContentLeft.html'
+      }
+    }
+  })
+
+  .state('abstractTabs.right', {
+    url: '/right',
+    views: {
+      'tabContentRight': {
+        templateUrl: '/templates/tabContentRight.html'
+      }
+    }
+  })
+
+  .state('greeting', {
+    url: '/greeting',
+    templateUrl: '/templates/greeting.html',
+    controller: 'GreetingCtrl'
+  })
+
   ;
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/playlists');

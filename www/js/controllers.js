@@ -55,22 +55,22 @@ angular.module('starter.controllers', [])
 .controller('PlaylistCtrl', function($scope, $stateParams) {
 })
 
-.controller('DonoCtrl', function($scope, $stateParams, $http) {
+.controller('DonoCtrl', function($scope, $stateParams, $http, BaseURL) {
 
   $scope.dono = {};
 
   if ($scope.loginData.username) {
-    $http.get('http://192.168.15.3:8080/vet-service/dono/' + $scope.loginData.username)
+    $http.get(BaseURL + '/dono/' + $scope.loginData.username)
       .then(
         function(response) {
-          if (response.data.dono) {
-            var dono = response.data.dono;
+          if (response.data) {
+            var dono = response.data;
             if (dono.dtNascimento) {
               dono.dtNascimento = new Date(dono.dtNascimento);
             }
             $scope.dono = dono;
           }
-          console.log(response.data.dono);
+          console.log(response.data);
         }, 
         function(error) {
           console.log(error);
@@ -81,7 +81,7 @@ angular.module('starter.controllers', [])
   $scope.save = function() {
     var param = {};
     param.dono = $scope.dono;
-    $http.post('http://192.168.15.3:8080/vet-service/dono/save', param)
+    $http.post(BaseURL + '/dono/save', param)
       .then(function(response) {
         console.log(response.data);
       }, function(error) {
@@ -91,5 +91,26 @@ angular.module('starter.controllers', [])
 })
 
 .controller('AnimalCtrl', function($scope, $stateParams) {
+})
+
+.controller('GreetingCtrl', function($scope, $http) {
+    $scope.greeting = {};
+
+    $http.get('http://localhost:8080/vet-service-spring/greeting')
+      .then(function(response) {
+        $scope.greeting = response.data;
+      }, function(error) {
+        console.log(error);
+      });
+
+    $scope.updateGreeting = function() {
+      $http.post('http://localhost:8080/vet-service-spring/updateGreeting', $scope.greeting)
+        .then(function(response) {
+          console.log(response.data)
+        }, function(error) {
+          console.log(error);
+        });
+    }
+
 })
 ;
