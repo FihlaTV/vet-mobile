@@ -65,6 +65,7 @@ angular.module('starter.controllers', [])
         function(response) {
           if (response.data) {
             var dono = response.data;
+            dono.persisted = true;
             if (dono.dtNascimento) {
               dono.dtNascimento = new Date(dono.dtNascimento);
             }
@@ -79,9 +80,7 @@ angular.module('starter.controllers', [])
   }
 
   $scope.save = function() {
-    var param = {};
-    param.dono = $scope.dono;
-    $http.post(BaseURL + '/dono/save', param)
+    $http.post(BaseURL + '/dono/save', $scope.dono)
       .then(function(response) {
         console.log(response.data);
       }, function(error) {
